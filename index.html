@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>::GOT Houses::</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+        .houses{
+            height:200px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+
+        h1{
+            text-align: center;
+        }
+
+        .declare{
+            background-color: lightgray;
+        }
+    </style>
+
+</head>
+<body>
+
+    <h1 class="my-4">GOT Houses</h1>
+    <div class="container-fluid">
+        <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 g-2">
+            <div class="col">
+                <div class="card h-100">
+                    <img src="img/baratheon.png" class="card-img-top houses" house="17" alt="baratheron">
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="img/lannister.jpg" class="card-img-top houses" house="229" alt="lanister">
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="img/stark.jpg" class="card-img-top houses" house="362" alt="stark">
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="img/targaryen.jpg" class="card-img-top houses" house="378" alt="targaryen">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container declare my-5">
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+    crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        $(document).on("click",".houses",function(){
+            let id = $(this).attr("house");
+            let reference = "";
+            
+            $.get(`https://anapioficeandfire.com/api/houses/${id}/`, function(res) {
+                reference += `<p> <b>Name:</b> ${res.name}</p>` 
+                reference += `<p> <b>Words:</b> ${res.words}</p>`
+                let house_titles = "";
+                for(titles in res.titles){
+                    if(titles != res.titles.length -1){
+                        house_titles += res.titles[titles]+", "
+                    } 
+                    else {
+                        house_titles += res.titles[titles]
+                    }
+                } 
+                reference += `<p> <b>Titles:</b> ${house_titles}</p>`
+                $(".declare").html(reference)
+        }, "json");
+        })
+    </script>
+
+</body>
+</html>
